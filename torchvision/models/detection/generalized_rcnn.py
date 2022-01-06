@@ -109,4 +109,4 @@ class GeneralizedRCNN(nn.Module):
                 self._has_warned = True
             return losses, detections
         else:
-            return self.eager_outputs(losses, detections)
+            return self.eager_outputs(losses, detections), proposals
