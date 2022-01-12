@@ -487,7 +487,7 @@ if __name__ == "__main__":
         version=version,
         author='PyTorch Core Team',
         author_email='soumith@pytorch.org',
-        url='https://github.com/pytorch/vision',
+        url='https://github.com/SAMANTHAyue/vision',
         description='image and video datasets and models for torch deep learning',
         long_description=readme,
         license='BSD',

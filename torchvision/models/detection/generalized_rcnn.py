@@ -93,7 +93,7 @@ class GeneralizedRCNN(nn.Module):
         features = self.backbone(images.tensors)
         if isinstance(features, torch.Tensor):
             features = OrderedDict([('0', features)])
-        proposals, proposal_losses = self.rpn(images, features, targets)
+        proposals, proposal_losses, proposal_scores = self.rpn(images, features, targets)
         detections, detector_losses = self.roi_heads(features, proposals, images.image_sizes, targets)
         detections = self.transform.postprocess(detections, images.image_sizes, original_image_sizes)
 
@@ -105,6 +105,6 @@ class GeneralizedRCNN(nn.Module):
             if not self._has_warned:
                 warnings.warn("RCNN always returns a (Losses, Detections) tuple in scripting")
                 self._has_warned = True
-            return losses, detections
+            return losses, detections, proposals, proposal_scores
         else:
-            return self.eager_outputs(losses, detections)
+            return self.eager_outputs(losses, detections), proposals, proposal_scores
