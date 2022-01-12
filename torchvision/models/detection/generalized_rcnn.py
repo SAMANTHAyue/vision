@@ -103,10 +103,11 @@ class GeneralizedRCNN(nn.Module):
         losses.update(detector_losses)
         losses.update(proposal_losses)
 
+        # return rpn proposal and its associated score
         if torch.jit.is_scripting():
             if not self._has_warned:
                 warnings.warn("RCNN always returns a (Losses, Detections) tuple in scripting")
                 self._has_warned = True
-            return losses, detections, proposals
+            return losses, detections, proposals, proposal_scores
         else:
-            return self.eager_outputs(losses, detections), proposal_scores
+            return self.eager_outputs(losses, detections), proposals, proposal_scores
